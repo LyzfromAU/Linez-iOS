@@ -1,0 +1,15 @@
+/Users/yazhou/Projects/Linez/Linez/bin/Debug/netstandard2.0/Linez.deps.json
+/Users/yazhou/Projects/Linez/Linez/bin/Debug/netstandard2.0/Linez.dll
+/Users/yazhou/Projects/Linez/Linez/bin/Debug/netstandard2.0/ref/Linez.dll
+/Users/yazhou/Projects/Linez/Linez/bin/Debug/netstandard2.0/Linez.pdb
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/Linez.csproj.AssemblyReference.cache
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/Linez.GeneratedMSBuildEditorConfig.editorconfig
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/App.xaml.g.cs
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/MainPage.xaml.g.cs
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/Linez.AssemblyInfoInputs.cache
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/Linez.AssemblyInfo.cs
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/Linez.csproj.CoreCompileInputs.cache
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/XamlC.stamp
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/Linez.dll
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/ref/Linez.dll
+/Users/yazhou/Projects/Linez/Linez/obj/Debug/netstandard2.0/Linez.pdb

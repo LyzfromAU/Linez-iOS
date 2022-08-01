@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{34F0A9BF-17F8-4FF9-8BE4-DAC24C5B3B6A}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Linez/MainPage.xaml.cs">
+    <Files>
+      <File FileName="Linez/MainPage.xaml" Line="22" Column="60" />
+      <File FileName="Linez/MainPage.xaml.cs" Line="89" Column="63" />
+      <File FileName="Linez/Maze.cs" Line="8" Column="23" />
+      <File FileName="Linez/Processing.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Linez" expanded="True">
+            <Node name="Linez" expanded="True">
+              <Node name="MainPage.xaml" expanded="True">
+                <Node name="MainPage.xaml.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Linez.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.8D234294-3BF7-4E37-BDDB-3C0A07151B66" />
+  <MonoDevelop.Ide.ItemProperties.Linez.Android FirstBuild="True" PreferredExecutionTarget="Android.pixel_2_pie_9_0_-_api_28" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
