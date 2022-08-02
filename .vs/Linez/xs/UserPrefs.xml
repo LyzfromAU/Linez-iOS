@@ -1,10 +1,9 @@
 ﻿<Properties StartupConfiguration="{34F0A9BF-17F8-4FF9-8BE4-DAC24C5B3B6A}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Linez/MainPage.xaml.cs">
     <Files>
-      <File FileName="Linez/MainPage.xaml" Line="22" Column="60" />
-      <File FileName="Linez/MainPage.xaml.cs" Line="89" Column="63" />
-      <File FileName="Linez/Maze.cs" Line="8" Column="23" />
-      <File FileName="Linez/Processing.cs" />
+      <File FileName="Linez/MainPage.xaml" Line="25" Column="78" />
+      <File FileName="Linez/MainPage.xaml.cs" Line="224" Column="36" />
+      <File FileName="Linez/Processing.cs" Line="21" Column="19" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

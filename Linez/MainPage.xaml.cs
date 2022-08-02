@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -14,13 +15,13 @@ namespace Linez
         {
             InitializeComponent();
             Colors = new List<string>();
-            Colors.Add("Red");
-            Colors.Add("Yellow");
-            Colors.Add("Green");
-            Colors.Add("Blue");
-            Colors.Add("LightBlue");
-            Colors.Add("Brown");
-            Colors.Add("Purple");
+            Colors.Add("#FFFF0000");
+            Colors.Add("#FFFFFF00");
+            Colors.Add("#FF008000");
+            Colors.Add("#FF0000FF");
+            Colors.Add("#FFADD8E6");
+            Colors.Add("#FFFFA500");
+            Colors.Add("#FF800080");
             ButtonStatus = "NothingClicked";
             StartCoord = new Coords
             {
@@ -83,10 +84,18 @@ namespace Linez
                                 y = Int32.Parse(stackLayout.ClassId[1].ToString())
                             };
                             StatusText.Text = TargetCoord.x.ToString() + TargetCoord.y.ToString();
+                            
                             if (Algorithm.Astar(Maze, StartCoord, TargetCoord))
                             {
                                 VisualizeBallAtTarget(TargetCoord, BallSelectedColor);
+                                Processing.UpdateMazeToOne(Maze, TargetCoord.x, TargetCoord.y);
+                                Processing.UpdateColorMazeToColor(ColorMaze, TargetCoord.x, TargetCoord.y, BallSelectedColor.ToHex());
+                                Processing.UpdateMazeToZero(Maze, StartCoord.x, StartCoord.y);
+                                Processing.UpdateColorMazeToNull(ColorMaze, StartCoord.x, StartCoord.y);
+                                RemoveBallAtStart(StartCoord);
+                                RemoveBackgroundColor();
                                 ButtonStatus = "NothingClicked";
+                                PlaceThreeBalls();
                             }
                             else
                             {
@@ -106,7 +115,7 @@ namespace Linez
             {
                 if (ButtonStatus == "NothingClicked")
                 {
-                    item.BackgroundColor = Color.White;
+                    item.BackgroundColor = Color.Black;
                 }
                 else
                 {
@@ -152,10 +161,23 @@ namespace Linez
             if (Processing.CheckRoom(Maze))
             {
                 var color = Processing.GetRandomColor(Colors);
-                VisualizeBall(Processing.RandomPlaceBall(Maze, ColorMaze, color), color);
+                var tempCoord = Processing.RandomPlaceBall(Maze, ColorMaze, color);
+                VisualizeBall(tempCoord, color);
+                Processing.UpdateColorMazeToColor(ColorMaze, tempCoord.x, tempCoord.y, color);
+                Processing.UpdateMazeToOne(Maze, tempCoord.x, tempCoord.y);
             } 
         }
-        
+        private void PlaceOneBallWithColor(string color)
+        {
+            if (Processing.CheckRoom(Maze))
+            {
+                var tempCoord = Processing.RandomPlaceBall(Maze, ColorMaze, color);
+                VisualizeBall(tempCoord, color);
+                Processing.UpdateColorMazeToColor(ColorMaze, tempCoord.x, tempCoord.y, color);
+                Processing.UpdateMazeToOne(Maze, tempCoord.x, tempCoord.y);
+            }
+        }
+
         private void PlaceThreeBalls()
         {
             for (var i = 0; i < 3; i++)
@@ -181,25 +203,25 @@ namespace Linez
                 };
                 switch(color)
                 { 
-                    case "Red":
+                    case "#FFFF0000":
                         button.BackgroundColor = Color.Red;
                         break;
-                    case "Blue":
+                    case "#FF0000FF":
                         button.BackgroundColor = Color.Blue;
                         break;
-                    case "LightBlue":
+                    case "#FFADD8E6":
                         button.BackgroundColor = Color.LightBlue;
                         break;
-                    case "Yellow":
+                    case "#FFFFFF00":
                         button.BackgroundColor = Color.Yellow;
                         break;
-                    case "Green":
+                    case "#FF008000":
                         button.BackgroundColor = Color.Green;
                         break;
-                    case "Brown":
-                        button.BackgroundColor = Color.Brown;
+                    case "#FFFFA500":
+                        button.BackgroundColor = Color.Orange;
                         break;
-                    case "Purple":
+                    case "#FF800080":
                         button.BackgroundColor = Color.Purple;
                         break;
                     default:
@@ -230,6 +252,14 @@ namespace Linez
                 item.Children.Add(button);
             }
         }
+        public void RemoveBallAtStart(Coords coord)
+        {
+            var items = MainGrid.Children.Cast<StackLayout>().Where(i => Grid.GetRow(i) == coord.x && Grid.GetColumn(i) == coord.y);
+            foreach (var item in items)
+            {
+                item.Children.Clear();
+            }
+        }
         private string ButtonStatus { get; set; }
         private Coords StartCoord { get; set; }
         private Coords TargetCoord { get; set; }
@@ -250,6 +280,7 @@ namespace Linez
                 ButtonStatus = "BallSelected";
                 StatusText.Text = "BallSelected";
                 BallSelectedColor = btn.BackgroundColor;
+                ColorText.Text = btn.BackgroundColor.ToHex();
             }
             else if (ButtonStatus == "BallSelected" && btn.ClassId == BallSelectedClassId)
             {
@@ -258,6 +289,23 @@ namespace Linez
                 StatusText.Text = "NothingClicked";
             }
             
+        }
+        private void RemoveBackgroundColor()
+        {
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j = 0; j < 9; j++)
+                {
+                    if (Maze[i][j] == 0)
+                    {
+                        var items = MainGrid.Children.Cast<StackLayout>().Where(s => Grid.GetRow(s) == i && Grid.GetColumn(s) == j);
+                        foreach (var item in items)
+                        {
+                            item.BackgroundColor = Color.AliceBlue;
+                        }
+                    }
+                }
+            }
         }
     }
 }

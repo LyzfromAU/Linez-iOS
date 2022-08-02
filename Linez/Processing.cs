@@ -44,5 +44,21 @@ namespace Linez
             Random rand = new Random();
             return Colors[rand.Next(7)];
         }
+        public static void UpdateMazeToOne(List<List<int>> Maze, int x, int y)
+        {
+            Maze[x][y] = 1;
+        }
+        public static void UpdateMazeToZero(List<List<int>> Maze, int x, int y)
+        {
+            Maze[x][y] = 0;
+        }
+        public static void UpdateColorMazeToColor(List<List<string>> Maze, int x, int y, string color)
+        {
+            Maze[x][y] = color;
+        }
+        public static void UpdateColorMazeToNull(List<List<string>> Maze, int x, int y)
+        {
+            Maze[x][y] = null;
+        }
     }
 }

@@ -21,6 +21,9 @@
         <StackLayout>
             <Label Text="NothingClicked" x:Name="StatusText"></Label>
         </StackLayout>
+        <StackLayout>
+            <Label Text="NullColor" x:Name="ColorText" TextColor="Aquamarine"></Label>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>
