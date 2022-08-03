@@ -40,6 +40,9 @@ namespace Linez
             HasRemovedDiagL = false;
             HasRemovedDiagR = false;
             NextColors = new List<string> { null, null, null };
+            Score = 0;
+            DefenderScore = 100;
+            InitializeScore();
             InitializeMaze();
             InitializeColorMaze();
             CreateGrid();
@@ -90,7 +93,7 @@ namespace Linez
                                 x = Int32.Parse(stackLayout.ClassId[0].ToString()),
                                 y = Int32.Parse(stackLayout.ClassId[1].ToString())
                             };
-                            StatusText.Text = TargetCoord.x.ToString() + TargetCoord.y.ToString();
+                            
                             
                             if (Algorithm.Astar(Maze, StartCoord, TargetCoord))
                             {
@@ -107,10 +110,14 @@ namespace Linez
                                 CheckColorDiagonalLeft();
                                 CheckColorDiagonalRight();
                                 RemoveBalls();
-                                TrueFalseList.Text = HasRemovedRow.ToString() + HasRemovedColumn.ToString() + HasRemovedDiagL.ToString() + HasRemovedDiagR.ToString();
+                                //TrueFalseList.Text = HasRemovedRow.ToString() + HasRemovedColumn.ToString() + HasRemovedDiagL.ToString() + HasRemovedDiagR.ToString();
                                 if (!(HasRemovedRow == true || HasRemovedColumn == true || HasRemovedDiagL == true || HasRemovedDiagR == true))
                                 {
                                     NextRound();
+                                }
+                                else
+                                {
+                                    GetScore();
                                 }
                             }
                             else
@@ -136,6 +143,10 @@ namespace Linez
             CheckColorDiagonalLeft();
             CheckColorDiagonalRight();
             RemoveBalls();
+            if (HasRemovedRow == true || HasRemovedColumn == true || HasRemovedDiagL == true || HasRemovedDiagR == true)
+            {
+                GetScore();
+            }
         }
         public void BoardChangeColor(int x, int y)
         {
@@ -190,9 +201,11 @@ namespace Linez
         private bool HasRemovedDiagL { get; set; }
         private bool HasRemovedDiagR { get; set; }
         private List<string> NextColors { get; set; }
+        private int Score { get; set; }
+        private int DefenderScore { get; set; }
         private void PlaceOneBall()
         {
-            if (Processing.CheckRoom(Maze))
+            if (Processing.CheckRoom(Maze) > 2)
             {
                 var color = Processing.GetRandomColor(Colors);
                 var tempCoord = Processing.RandomPlaceBall(Maze, ColorMaze, color);
@@ -203,13 +216,40 @@ namespace Linez
         }
         private void PlaceOneBallWithColor(string color)
         {
-            if (Processing.CheckRoom(Maze))
+            if (Processing.CheckRoom(Maze) > 2)
             {
                 var tempCoord = Processing.RandomPlaceBall(Maze, ColorMaze, color);
                 VisualizeBall(tempCoord, color);
                 Processing.UpdateColorMazeToColor(ColorMaze, tempCoord.x, tempCoord.y, color);
                 Processing.UpdateMazeToOne(Maze, tempCoord.x, tempCoord.y);
             }
+            else
+            {
+                //TrueFalseList.Text = "Game Over!";
+                DisplayAlert($"Game Over! Your Score is {Score}", "Start a new game", "OK");
+                RestartGame();
+            }
+        }
+        private void GetScore()
+        {
+            Score += 10;
+            if (Score > DefenderScore)
+            {
+                Challenger.Progress = 1;
+                Defender.Progress = (double)DefenderScore / Score;
+            }
+            else
+            {
+                Defender.Progress = 1;
+                Challenger.Progress = (double)Score / DefenderScore;
+            }
+            DefenderText.Text = "Defender   " + DefenderScore.ToString();
+            ChallengerText.Text = "Challenger " + Score.ToString();
+        }
+        private void InitializeScore()
+        {
+            DefenderText.Text = "Defender   " + DefenderScore.ToString();
+            ChallengerText.Text = "Challenger " + Score.ToString();
         }
         private void DisplayNextColors()
         {
@@ -401,15 +441,15 @@ namespace Linez
                 BallSelectedClassId = btn.ClassId;
                 BoardChangeColor(Int32.Parse(btn.ClassId[0].ToString()), Int32.Parse(btn.ClassId[1].ToString()));
                 ButtonStatus = "BallSelected";
-                StatusText.Text = "BallSelected";
+                
                 BallSelectedColor = btn.BackgroundColor;
-                ColorText.Text = btn.BackgroundColor.ToHex();
+                
             }
             else if (ButtonStatus == "BallSelected" && btn.ClassId == BallSelectedClassId)
             {
                 BoardChangeColor(Int32.Parse(btn.ClassId[0].ToString()), Int32.Parse(btn.ClassId[1].ToString()));
                 ButtonStatus = "NothingClicked";
-                StatusText.Text = "NothingClicked";
+                
             }
             
         }
@@ -567,6 +607,31 @@ namespace Linez
             {
                 HasRemovedDiagR = true;
             }
+        }
+        private void RestartGame()
+        {
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j =0; j < 9; j++)
+                {
+                    Maze[i][j] = 0;
+                    ColorMaze[i][j] = null;
+                }
+            }
+            RemoveBalls();
+            Score = 0;
+            DefenderScore = 100;
+            Defender.Progress = 1;
+            Challenger.Progress = 0;
+            InitializeScore();
+            PlaceThreeBalls();
+            GenerateNextColors();
+            DisplayNextColors();
+            ButtonStatus = "NothingClicked";
+            HasRemovedRow = false;
+            HasRemovedColumn = false;
+            HasRemovedDiagL = false;
+            HasRemovedDiagR = false;
         }
     }
 }

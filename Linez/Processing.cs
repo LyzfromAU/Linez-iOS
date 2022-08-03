@@ -25,19 +25,20 @@ namespace Linez
                 return RandomPlaceBall(Maze, ColorMaze, Color);
             }
         }
-        public static bool CheckRoom(List<List<int>> Maze)
+        public static int CheckRoom(List<List<int>> Maze)
         {
+            var num = 0;
             for (var i = 0; i < 9; i++)
             {
                 for (var j = 0; j < 9; j++)
                 {
                     if (Maze[i][j] == 0)
                     {
-                        return true;
+                        num++;
                     }
                 }
             }
-            return false;
+            return num;
         }
         public static string GetRandomColor(List<string> Colors)
         {

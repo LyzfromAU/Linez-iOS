@@ -4,6 +4,16 @@
              x:Class="Linez.MainPage">
 
     <StackLayout Margin="20, 50, 20, 0">
+        <StackLayout HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                <Label x:Name="DefenderText"></Label>
+                <ProgressBar x:Name="Defender" ScaleY="5" Progress="1" BackgroundColor="AliceBlue" ProgressColor="Purple" WidthRequest="210" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"></ProgressBar>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Label x:Name="ChallengerText"></Label>
+                <ProgressBar x:Name="Challenger" ScaleY="5" Progress="0" BackgroundColor="AliceBlue" ProgressColor="Purple" WidthRequest="210" VerticalOptions="CenterAndExpand" HorizontalOptions="EndAndExpand"></ProgressBar>
+            </StackLayout>
+        </StackLayout>
         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
             <StackLayout WidthRequest="30" HeightRequest="30" BackgroundColor="AliceBlue">
                 <Button x:Name="P1" CornerRadius = "12"
@@ -40,7 +50,7 @@
               BackgroundColor="MediumBlue">
 
         </Grid>
-        <StackLayout>
+        <!--<StackLayout>
             <Button Text="Press Me" Clicked="ManipulateTest1"></Button>
             <Button BackgroundColor="Red" Text="Press Me" Clicked="ManipulateTest1" WidthRequest="24" HeightRequest="24" CornerRadius="12" BorderWidth="0" HorizontalOptions="Start"></Button>
         </StackLayout>
@@ -52,7 +62,7 @@
         </StackLayout>
         <StackLayout>
             <Label Text="NullColor" x:Name="TrueFalseList"></Label>
-        </StackLayout>
+        </StackLayout>-->
     </StackLayout>
 
 </ContentPage>
