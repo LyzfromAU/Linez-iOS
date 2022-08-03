@@ -1,9 +1,10 @@
 ﻿<Properties StartupConfiguration="{34F0A9BF-17F8-4FF9-8BE4-DAC24C5B3B6A}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="Linez/MainPage.xaml.cs">
     <Files>
-      <File FileName="Linez/MainPage.xaml" Line="25" Column="78" />
-      <File FileName="Linez/MainPage.xaml.cs" Line="224" Column="36" />
-      <File FileName="Linez/Processing.cs" Line="21" Column="19" />
+      <File FileName="Linez/MainPage.xaml" Line="7" Column="82" />
+      <File FileName="Linez/MainPage.xaml.cs" Line="42" Column="61" />
+      <File FileName="Linez/Processing.cs" Line="63" Column="9" />
+      <File FileName="Linez.iOS/Main.cs" Line="17" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,6 +15,7 @@
                 <Node name="MainPage.xaml.cs" selected="True" />
               </Node>
             </Node>
+            <Node name="Linez.iOS" expanded="True" />
           </Node>
         </State>
       </Pad>

@@ -4,6 +4,32 @@
              x:Class="Linez.MainPage">
 
     <StackLayout Margin="20, 50, 20, 0">
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <StackLayout WidthRequest="30" HeightRequest="30" BackgroundColor="AliceBlue">
+                <Button x:Name="P1" CornerRadius = "12"
+                    WidthRequest = "24"
+                    HeightRequest = "24"
+                    BorderWidth = "0"
+                    HorizontalOptions = "Center"
+                    VerticalOptions = "CenterAndExpand"></Button>
+            </StackLayout>
+            <StackLayout WidthRequest="30" HeightRequest="30" BackgroundColor="AliceBlue">
+                <Button x:Name="P2" CornerRadius = "12"
+                    WidthRequest = "24"
+                    HeightRequest = "24"
+                    BorderWidth = "0"
+                    HorizontalOptions = "Center"
+                    VerticalOptions = "CenterAndExpand"></Button>
+            </StackLayout>
+            <StackLayout WidthRequest="30" HeightRequest="30" BackgroundColor="AliceBlue">
+                <Button x:Name="P3" CornerRadius = "12"
+                    WidthRequest = "24"
+                    HeightRequest = "24"
+                    BorderWidth = "0"
+                    HorizontalOptions = "Center"
+                    VerticalOptions = "CenterAndExpand"></Button>
+            </StackLayout>
+        </StackLayout>
         <Grid x:Name="MainGrid"
               HeightRequest="{Binding Width}"
               BindingContext="{x:Reference MainGrid}"
@@ -23,6 +49,9 @@
         </StackLayout>
         <StackLayout>
             <Label Text="NullColor" x:Name="ColorText" TextColor="Aquamarine"></Label>
+        </StackLayout>
+        <StackLayout>
+            <Label Text="NullColor" x:Name="TrueFalseList"></Label>
         </StackLayout>
     </StackLayout>
 

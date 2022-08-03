@@ -60,5 +60,6 @@ namespace Linez
         {
             Maze[x][y] = null;
         }
+        
     }
 }

@@ -35,9 +35,16 @@ namespace Linez
             };
             BallSelectedClassId = "00";
             BallSelectedColor = new Color();
+            HasRemovedRow = false;
+            HasRemovedColumn = false;
+            HasRemovedDiagL = false;
+            HasRemovedDiagR = false;
+            NextColors = new List<string> { null, null, null };
             InitializeMaze();
             InitializeColorMaze();
             CreateGrid();
+            GenerateNextColors();
+            DisplayNextColors();
             PlaceThreeBalls();
         }
         private void CreateGrid()
@@ -95,7 +102,16 @@ namespace Linez
                                 RemoveBallAtStart(StartCoord);
                                 RemoveBackgroundColor();
                                 ButtonStatus = "NothingClicked";
-                                PlaceThreeBalls();
+                                CheckColorRow();
+                                CheckColorColumn();
+                                CheckColorDiagonalLeft();
+                                CheckColorDiagonalRight();
+                                RemoveBalls();
+                                TrueFalseList.Text = HasRemovedRow.ToString() + HasRemovedColumn.ToString() + HasRemovedDiagL.ToString() + HasRemovedDiagR.ToString();
+                                if (!(HasRemovedRow == true || HasRemovedColumn == true || HasRemovedDiagL == true || HasRemovedDiagR == true))
+                                {
+                                    NextRound();
+                                }
                             }
                             else
                             {
@@ -107,6 +123,19 @@ namespace Linez
                     MainGrid.Children.Add(stackLayout, columnIndex, rowIndex);
                 }
             }
+        }
+        private void NextRound()
+        {
+            PlaceOneBallWithColor(NextColors[0]);
+            PlaceOneBallWithColor(NextColors[1]);
+            PlaceOneBallWithColor(NextColors[2]);
+            GenerateNextColors();
+            DisplayNextColors();
+            CheckColorRow();
+            CheckColorColumn();
+            CheckColorDiagonalLeft();
+            CheckColorDiagonalRight();
+            RemoveBalls();
         }
         public void BoardChangeColor(int x, int y)
         {
@@ -156,6 +185,11 @@ namespace Linez
         private List<List<int>> Maze { get; set; }
         private List<List<string>> ColorMaze { get; set; }
         private List<string> Colors { get; set; }
+        private bool HasRemovedRow { get; set; }
+        private bool HasRemovedColumn { get; set; }
+        private bool HasRemovedDiagL { get; set; }
+        private bool HasRemovedDiagR { get; set; }
+        private List<string> NextColors { get; set; }
         private void PlaceOneBall()
         {
             if (Processing.CheckRoom(Maze))
@@ -175,6 +209,95 @@ namespace Linez
                 VisualizeBall(tempCoord, color);
                 Processing.UpdateColorMazeToColor(ColorMaze, tempCoord.x, tempCoord.y, color);
                 Processing.UpdateMazeToOne(Maze, tempCoord.x, tempCoord.y);
+            }
+        }
+        private void DisplayNextColors()
+        {
+
+            switch (NextColors[0])
+            {
+                case "#FFFF0000":
+                    P1.BackgroundColor = Color.Red;
+                    break;
+                case "#FF0000FF":
+                    P1.BackgroundColor = Color.Blue;
+                    break;
+                case "#FFADD8E6":
+                    P1.BackgroundColor = Color.LightBlue;
+                    break;
+                case "#FFFFFF00":
+                    P1.BackgroundColor = Color.Yellow;
+                    break;
+                case "#FF008000":
+                    P1.BackgroundColor = Color.Green;
+                    break;
+                case "#FFFFA500":
+                    P1.BackgroundColor = Color.Orange;
+                    break;
+                case "#FF800080":
+                    P1.BackgroundColor = Color.Purple;
+                    break;
+                default:
+                    break;
+            }
+            switch (NextColors[1])
+            {
+                case "#FFFF0000":
+                    P2.BackgroundColor = Color.Red;
+                    break;
+                case "#FF0000FF":
+                    P2.BackgroundColor = Color.Blue;
+                    break;
+                case "#FFADD8E6":
+                    P2.BackgroundColor = Color.LightBlue;
+                    break;
+                case "#FFFFFF00":
+                    P2.BackgroundColor = Color.Yellow;
+                    break;
+                case "#FF008000":
+                    P2.BackgroundColor = Color.Green;
+                    break;
+                case "#FFFFA500":
+                    P2.BackgroundColor = Color.Orange;
+                    break;
+                case "#FF800080":
+                    P2.BackgroundColor = Color.Purple;
+                    break;
+                default:
+                    break;
+            }
+            switch (NextColors[2])
+            {
+                case "#FFFF0000":
+                    P3.BackgroundColor = Color.Red;
+                    break;
+                case "#FF0000FF":
+                    P3.BackgroundColor = Color.Blue;
+                    break;
+                case "#FFADD8E6":
+                    P3.BackgroundColor = Color.LightBlue;
+                    break;
+                case "#FFFFFF00":
+                    P3.BackgroundColor = Color.Yellow;
+                    break;
+                case "#FF008000":
+                    P3.BackgroundColor = Color.Green;
+                    break;
+                case "#FFFFA500":
+                    P3.BackgroundColor = Color.Orange;
+                    break;
+                case "#FF800080":
+                    P3.BackgroundColor = Color.Purple;
+                    break;
+                default:
+                    break;
+            }
+        }
+        private void GenerateNextColors()
+        {
+            for (var i = 0; i < 3; i++)
+            {
+                NextColors[i] = (Processing.GetRandomColor(Colors));
             }
         }
 
@@ -291,6 +414,15 @@ namespace Linez
             
         }
         private void RemoveBackgroundColor()
+        { 
+            var items = MainGrid.Children.Cast<StackLayout>().Where(s => Grid.GetRow(s) > -1);
+            foreach (var item in items)
+            {
+                item.BackgroundColor = Color.AliceBlue;
+            } 
+        }
+
+        private void RemoveBalls()
         {
             for (var i = 0; i < 9; i++)
             {
@@ -301,10 +433,139 @@ namespace Linez
                         var items = MainGrid.Children.Cast<StackLayout>().Where(s => Grid.GetRow(s) == i && Grid.GetColumn(s) == j);
                         foreach (var item in items)
                         {
-                            item.BackgroundColor = Color.AliceBlue;
+                            item.Children.Clear();
                         }
                     }
                 }
+            }
+            
+        }
+        public void CheckColorRow()
+        {
+            var num = 0;
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j = 0; j < 5; j++)
+                {
+                    if (ColorMaze[i][j] != null && ColorMaze[i][j + 1] == ColorMaze[i][j] && ColorMaze[i][j + 2] == ColorMaze[i][j] && ColorMaze[i][j + 3] == ColorMaze[i][j] && ColorMaze[i][j + 4] == ColorMaze[i][j])
+                    {
+                        Maze[i][j] = 0;
+                        Maze[i][j + 1] = 0;
+                        Maze[i][j + 2] = 0;
+                        Maze[i][j + 3] = 0;
+                        Maze[i][j + 4] = 0;
+                        ColorMaze[i][j] = null;
+                        ColorMaze[i][j + 1] = null;
+                        ColorMaze[i][j + 2] = null;
+                        ColorMaze[i][j + 3] = null;
+                        ColorMaze[i][j + 4] = null;
+                        num++;
+                    }
+                }
+            }
+            if (num == 0)
+            {
+                HasRemovedRow = false;
+            }
+            else
+            {
+                HasRemovedRow = true;
+            }
+        }
+        public void CheckColorColumn()
+        {
+            var num = 0;
+            for (var i = 0; i < 9; i++)
+            {
+                for (var j = 0; j < 5; j++)
+                {
+                    if (ColorMaze[j][i] != null && ColorMaze[j + 1][i] == ColorMaze[j][i] && ColorMaze[j + 2][i] == ColorMaze[j][i] && ColorMaze[j + 3][i] == ColorMaze[j][i] && ColorMaze[j + 4][i] == ColorMaze[j][i])
+                    {
+                        Maze[j][i] = 0;
+                        Maze[j + 1][i] = 0;
+                        Maze[j + 2][i] = 0;
+                        Maze[j + 3][i] = 0;
+                        Maze[j + 4][i] = 0;
+                        ColorMaze[j][i] = null;
+                        ColorMaze[j + 1][i] = null;
+                        ColorMaze[j + 2][i] = null;
+                        ColorMaze[j + 3][i] = null;
+                        ColorMaze[j + 4][i] = null;
+                        num++;
+                    }
+                }
+            }
+            if (num == 0)
+            {
+                HasRemovedColumn = false;
+            }
+            else
+            {
+                HasRemovedColumn = true;
+            }
+        }
+        public void CheckColorDiagonalLeft()
+        {
+            var num = 0;
+            for (var i = 0; i < 5; i++)
+            {
+                for (var j = 0; j < 5; j++)
+                {
+                    if (ColorMaze[i][j] != null && ColorMaze[i + 1][j + 1] == ColorMaze[i][j] && ColorMaze[i + 2][j + 2] == ColorMaze[i][j] && ColorMaze[i + 3][j + 3] == ColorMaze[i][j] && ColorMaze[i + 4][j + 4] == ColorMaze[i][j])
+                    {
+                        Maze[i][j] = 0;
+                        Maze[i + 1][j + 1] = 0;
+                        Maze[i + 2][j + 2] = 0;
+                        Maze[i + 3][j + 3] = 0;
+                        Maze[i + 4][j + 4] = 0;
+                        ColorMaze[i][j] = null;
+                        ColorMaze[i + 1][j + 1] = null;
+                        ColorMaze[i + 2][j + 2] = null;
+                        ColorMaze[i + 3][j + 3] = null;
+                        ColorMaze[i + 4][j + 4] = null;
+                        num++;
+                    }
+                }
+            }
+            if (num == 0)
+            {
+                HasRemovedDiagL = false;
+            }
+            else
+            {
+                HasRemovedDiagL = true;
+            }
+        }
+        public void CheckColorDiagonalRight()
+        {
+            var num = 0;
+            for (var i = 0; i < 5; i++)
+            {
+                for (var j = 8; j > 3; j--)
+                {
+                    if (ColorMaze[i][j] != null && ColorMaze[i + 1][j - 1] == ColorMaze[i][j] && ColorMaze[i + 2][j - 2] == ColorMaze[i][j] && ColorMaze[i + 3][j - 3] == ColorMaze[i][j] && ColorMaze[i + 4][j - 4] == ColorMaze[i][j])
+                    {
+                        Maze[i][j] = 0;
+                        Maze[i + 1][j - 1] = 0;
+                        Maze[i + 2][j - 2] = 0;
+                        Maze[i + 3][j - 3] = 0;
+                        Maze[i + 4][j - 4] = 0;
+                        ColorMaze[i][j] = null;
+                        ColorMaze[i + 1][j - 1] = null;
+                        ColorMaze[i + 2][j - 2] = null;
+                        ColorMaze[i + 3][j - 3] = null;
+                        ColorMaze[i + 4][j - 4] = null;
+                        num++;
+                    }
+                }
+            }
+            if (num == 0)
+            {
+                HasRemovedDiagR = false;
+            }
+            else
+            {
+                HasRemovedDiagR = true;
             }
         }
     }
